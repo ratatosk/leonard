@@ -39,3 +39,13 @@ maxNDigit n = 10^(n) - 1
 -- ^ Number of numbers with n digits.
 numNDigit :: Integral a => Int -> a
 numNDigit n = maxNDigit n - minNDigit n + 1
+
+-- ^ Find n consecutive elements matching condition.
+findNCons :: Int -> (a -> Bool) -> [a] -> [a]
+findNCons n f l = reverse $ run [] 0 l
+  where
+    run acc accL xx | accL == n = acc
+                    | otherwise =
+                      case xx of
+                        (x:xs) -> if (f x) then run (x:acc) (accL+1) xs else run [] 0 xs
+                        [] -> []
